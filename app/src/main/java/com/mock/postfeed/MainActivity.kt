@@ -1,8 +1,10 @@
 package com.mock.postfeed
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -15,6 +17,8 @@ import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.theme.MockPostFeedTheme
 
 class MainActivity : ComponentActivity() {
+
+    val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +64,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    fun onPostClicked(post: PostModel) {
+        Log.d(TAG, "Post with id: ${post.id} clicked")
+    }
+
     @Composable
     fun PostWidget(post: PostModel) {
         Card(
@@ -67,6 +75,9 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .padding(8.dp)
                 .height(220.dp)
+                .clickable {
+                    onPostClicked(post)
+                }
         ) {
             Column {
                 Text(text = post.username, style = MaterialTheme.typography.h5)
