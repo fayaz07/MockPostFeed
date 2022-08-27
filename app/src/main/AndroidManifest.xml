@@ -15,6 +15,11 @@
         android:theme="@style/Theme.MockPostFeed"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.detail.PostDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_post_detail"
+            android:theme="@style/Theme.MockPostFeed" />
+        <activity
             android:name=".ui.activities.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
