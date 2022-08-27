@@ -8,11 +8,19 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mock.postfeed.data.network.PostFeedAPI
+import com.mock.postfeed.data.network.RetrofitConfig
 import com.mock.postfeed.ui.theme.MockPostFeedTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 
 class MainActivity : ComponentActivity() {
+
+    private val mainViewModel: MainViewModel = MainViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
