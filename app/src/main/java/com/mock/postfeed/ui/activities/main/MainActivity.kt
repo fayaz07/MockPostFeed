@@ -1,5 +1,6 @@
 package com.mock.postfeed.ui.activities.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mock.postfeed.data.network.PostModel
+import com.mock.postfeed.ui.activities.detail.PostDetailActivity
 import com.mock.postfeed.ui.theme.MockPostFeedTheme
 
 class MainActivity : ComponentActivity() {
@@ -66,6 +68,9 @@ class MainActivity : ComponentActivity() {
 
     fun onPostClicked(post: PostModel) {
         Log.d(TAG, "Post with id: ${post.id} clicked")
+        val intent = Intent(this, PostDetailActivity::class.java)
+        intent.putExtra("postId", post.id)
+        startActivity(intent)
     }
 
     @Composable
