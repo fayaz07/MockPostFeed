@@ -1,4 +1,4 @@
-package com.mock.postfeed
+package com.mock.postfeed.ui.activities.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

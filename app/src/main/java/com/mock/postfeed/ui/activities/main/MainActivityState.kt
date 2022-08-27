@@ -1,4 +1,4 @@
-package com.mock.postfeed
+package com.mock.postfeed.ui.activities.main
 
 import com.mock.postfeed.data.network.PostModel
 

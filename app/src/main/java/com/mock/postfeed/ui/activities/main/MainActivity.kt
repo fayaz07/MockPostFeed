@@ -1,4 +1,4 @@
-package com.mock.postfeed
+package com.mock.postfeed.ui.activities.main
 
 import android.os.Bundle
 import android.util.Log
