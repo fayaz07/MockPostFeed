@@ -38,6 +38,6 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     MockPostFeedTheme {
-        Greeting("Android")
+        Greeting("Say Hi")
     }
 }
