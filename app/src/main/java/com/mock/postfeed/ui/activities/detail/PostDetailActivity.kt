@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import coil.compose.SubcomposeAsyncImage
+import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.widgets.MySpinner
 
 class PostDetailActivity : ComponentActivity() {
@@ -53,7 +57,21 @@ class PostDetailActivity : ComponentActivity() {
         if (state.value.loading) {
             MySpinner()
         } else {
-            Text(text = state.value.postData.toString())
+            state.value.postData?.let { GetPostDetail(post = it) }
+        }
+    }
+
+    @Composable
+    fun GetPostDetail(post: PostModel) {
+        Column {
+            SubcomposeAsyncImage(
+                modifier = Modifier.fillMaxWidth(),
+                model = post.image,
+                contentDescription = "Post by ${post.username}",
+                loading = {
+                    MySpinner()
+                }
+            )
         }
     }
 }

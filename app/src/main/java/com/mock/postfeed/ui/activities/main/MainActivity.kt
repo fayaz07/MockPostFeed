@@ -64,8 +64,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
-
     private fun onPostClicked(post: PostModel) {
         Log.d(TAG, "Post with id: ${post.id} clicked")
         val intent = Intent(this, PostDetailActivity::class.java)
