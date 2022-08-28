@@ -14,7 +14,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.widgets.MySpinner
@@ -73,25 +75,37 @@ class PostDetailActivity : ComponentActivity() {
                     MySpinner()
                 }
             )
-            Row(modifier = Modifier.padding(bottom = 4.dp)) {
-                SubcomposeAsyncImage(
-                    model = post.avatar,
-                    contentDescription = post.username,
-                    loading = {
-                        MySpinner()
-                    },
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .padding(end = 8.dp)
-                        .height(32.dp)
-                        .width(32.dp)
-                        .clip(CircleShape)
+            Column(modifier = Modifier.padding(8.dp)) {
+                Row(modifier = Modifier.padding(bottom = 4.dp)) {
+                    SubcomposeAsyncImage(
+                        model = post.avatar,
+                        contentDescription = post.username,
+                        loading = {
+                            MySpinner()
+                        },
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .padding(end = 8.dp)
+                            .height(32.dp)
+                            .width(32.dp)
+                            .clip(CircleShape)
+                    )
+                    Text(text = post.username, style = MaterialTheme.typography.h5)
+                }
+                Text(
+                    text = "Posted on: ${post.createdAt}",
+                    style = MaterialTheme.typography.subtitle1
                 )
-                Text(text = post.username, style = MaterialTheme.typography.h5)
+                Text(
+                    text = "Liked by ${post.likes} people",
+                    style = MaterialTheme.typography.subtitle1
+                )
+                Text(
+                    text = post.caption,
+                    style = MaterialTheme.typography.subtitle1.copy(fontSize = 24.sp),
+                    modifier = Modifier.padding(top = 16.dp)
+                )
             }
-            Text(text = "Posted on: ${post.createdAt}")
-            Text(text = "Liked by ${post.likes} people")
-            Text(text = post.caption)
         }
     }
 }
