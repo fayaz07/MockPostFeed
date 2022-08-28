@@ -9,13 +9,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.activities.detail.PostDetailActivity
@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun GetHomeContent(state: State<MainActivityState>) {
-        if(state.value.loading) {
+        if (state.value.loading) {
             MySpinner()
         } else {
             LazyColumn {
@@ -86,15 +86,31 @@ class MainActivity : ComponentActivity() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .height(220.dp)
+                .height(260.dp)
+                .padding(top = 4.dp, bottom = 4.dp)
                 .clickable {
                     onPostClicked(post)
                 }
         ) {
             Column {
-                Text(text = post.username, style = MaterialTheme.typography.h5)
+                Row(modifier = Modifier.padding(bottom = 4.dp)) {
+                    SubcomposeAsyncImage(
+                        model = post.avatar,
+                        contentDescription = post.username,
+                        loading = {
+                            MySpinner()
+                        },
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .padding(end = 8.dp)
+                            .height(32.dp)
+                            .width(32.dp)
+                            .clip(CircleShape)
+                    )
+                    Text(text = post.username, style = MaterialTheme.typography.h5)
+                }
                 SubcomposeAsyncImage(
+                    modifier = Modifier.fillMaxWidth(),
                     model = post.image,
                     contentDescription = "Post by ${post.username}",
                     loading = {

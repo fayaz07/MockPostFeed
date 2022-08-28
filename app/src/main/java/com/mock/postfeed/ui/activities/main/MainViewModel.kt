@@ -28,7 +28,6 @@ class MainViewModel : ViewModel() {
         val retrofit = RetrofitConfig.build()
         val api = retrofit.create(PostFeedAPI::class.java)
         viewModelScope.launch {
-            delay(3000)
             val response = api.getPosts()
             if (response.isSuccessful) {
                 _state.value = _state.value.copy(posts = response.body() as List<PostModel>)
