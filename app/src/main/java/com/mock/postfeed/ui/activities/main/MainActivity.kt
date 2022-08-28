@@ -6,14 +6,18 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
@@ -77,13 +81,15 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(260.dp)
-                .padding(top = 4.dp, bottom = 4.dp)
+                .padding(8.dp)
                 .clickable {
                     onPostClicked(post)
-                }
+                },
+            elevation = 8.dp,
+            shape = RoundedCornerShape(8.dp)
         ) {
             Column {
-                Row(modifier = Modifier.padding(bottom = 4.dp)) {
+                Row(modifier = Modifier.padding(bottom = 4.dp, top = 4.dp)) {
                     SubcomposeAsyncImage(
                         model = post.avatar,
                         contentDescription = post.username,
@@ -102,6 +108,7 @@ class MainActivity : ComponentActivity() {
                 SubcomposeAsyncImage(
                     modifier = Modifier.fillMaxWidth(),
                     model = post.image,
+                    contentScale = ContentScale.FillWidth,
                     contentDescription = "Post by ${post.username}",
                     loading = {
                         MySpinner()
