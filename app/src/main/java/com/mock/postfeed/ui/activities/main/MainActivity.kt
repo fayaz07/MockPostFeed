@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -50,10 +51,24 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun GetHomeContent(state: State<MainActivityState>) {
-        LazyColumn {
-            items(state.value.posts.size) { index ->
-                PostWidget(state.value.posts[index])
+        if(state.value.loading) {
+            MySpinner()
+        } else {
+            LazyColumn {
+                items(state.value.posts.size) { index ->
+                    PostWidget(state.value.posts[index])
+                }
             }
+        }
+    }
+
+    @Composable
+    fun MySpinner() {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator()
         }
     }
 

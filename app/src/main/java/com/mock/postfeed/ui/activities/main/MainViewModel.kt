@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mock.postfeed.data.network.PostFeedAPI
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.data.network.RetrofitConfig
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,18 +19,27 @@ class MainViewModel : ViewModel() {
     val state: StateFlow<MainActivityState>
         get() = _state
 
+    init {
+        getPosts()
+    }
 
     fun getPosts() {
+        setLoading(true)
         val retrofit = RetrofitConfig.build()
         val api = retrofit.create(PostFeedAPI::class.java)
         viewModelScope.launch {
+            delay(3000)
             val response = api.getPosts()
             if (response.isSuccessful) {
                 _state.value = _state.value.copy(posts = response.body() as List<PostModel>)
             } else {
                 response.errorBody()?.string()?.let { Log.e(TAG, it) }
             }
+            setLoading(false)
         }
     }
 
+    private fun setLoading(status: Boolean) {
+        _state.value = _state.value.copy(loading = status)
+    }
 }
