@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,12 +16,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.widgets.MySpinner
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class PostDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +72,8 @@ class PostDetailActivity : ComponentActivity() {
 
     @Composable
     fun GetPostDetail(post: PostModel) {
-        Column {
+        val scrollSate = rememberScrollState()
+        Column(modifier = Modifier.verticalScroll(scrollSate)) {
             SubcomposeAsyncImage(
                 modifier = Modifier.fillMaxWidth(),
                 model = post.image,
@@ -75,7 +82,10 @@ class PostDetailActivity : ComponentActivity() {
                     MySpinner()
                 }
             )
-            Column(modifier = Modifier.padding(8.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp)
+            ) {
                 Row(modifier = Modifier.padding(bottom = 4.dp)) {
                     SubcomposeAsyncImage(
                         model = post.avatar,
@@ -93,7 +103,7 @@ class PostDetailActivity : ComponentActivity() {
                     Text(text = post.username, style = MaterialTheme.typography.h5)
                 }
                 Text(
-                    text = "Posted on: ${post.createdAt}",
+                    text = "Posted on: ${generalizedDate(post.createdAt)}",
                     style = MaterialTheme.typography.subtitle1
                 )
                 Text(
@@ -102,10 +112,16 @@ class PostDetailActivity : ComponentActivity() {
                 )
                 Text(
                     text = post.caption,
-                    style = MaterialTheme.typography.subtitle1.copy(fontSize = 24.sp),
+                    style = MaterialTheme.typography.subtitle1.copy(fontSize = 18.sp),
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun generalizedDate(dateString: String): String {
+        val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateString)
+        return date?.let { SimpleDateFormat("MMM dd, yyyy").format(it) }.toString()
     }
 }
