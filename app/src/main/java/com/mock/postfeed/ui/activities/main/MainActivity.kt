@@ -13,8 +13,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.activities.detail.PostDetailActivity
 import com.mock.postfeed.ui.theme.MockPostFeedTheme
@@ -92,9 +94,12 @@ class MainActivity : ComponentActivity() {
         ) {
             Column {
                 Text(text = post.username, style = MaterialTheme.typography.h5)
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = post.image,
-                    contentDescription = "Post by ${post.username}"
+                    contentDescription = "Post by ${post.username}",
+                    loading = {
+                        MySpinner()
+                    }
                 )
             }
         }
