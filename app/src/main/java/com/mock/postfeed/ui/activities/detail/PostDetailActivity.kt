@@ -9,8 +9,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import com.mock.postfeed.ui.widgets.MySpinner
 
 class PostDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,12 +21,14 @@ class PostDetailActivity : ComponentActivity() {
         val postId = intent.getIntExtra("postId", 0)
         val viewModel = PostDetailViewModel()
 
-        setContent { Content(postId, viewModel) }
+        viewModel.getPostById(postId)
+
+        setContent { Content(viewModel) }
     }
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
-    fun Content(postId: Int, viewModel: PostDetailViewModel) {
+    fun Content(viewModel: PostDetailViewModel) {
         val state = viewModel.state.collectAsState()
         Scaffold(
             topBar = {
@@ -40,7 +44,16 @@ class PostDetailActivity : ComponentActivity() {
             },
             modifier = Modifier.fillMaxSize(),
         ) { _ ->
-            Text("Data of post id: $postId will be shown here")
+            GetScaffoldContent(state)
+        }
+    }
+
+    @Composable
+    fun GetScaffoldContent(state: State<PostDetailActivityState>) {
+        if (state.value.loading) {
+            MySpinner()
+        } else {
+            Text(text = state.value.postData.toString())
         }
     }
 }

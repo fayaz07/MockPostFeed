@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -20,6 +19,7 @@ import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.activities.detail.PostDetailActivity
 import com.mock.postfeed.ui.theme.MockPostFeedTheme
+import com.mock.postfeed.ui.widgets.MySpinner
 
 class MainActivity : ComponentActivity() {
 
@@ -64,15 +64,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun MySpinner() {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            CircularProgressIndicator()
-        }
-    }
+
 
     private fun onPostClicked(post: PostModel) {
         Log.d(TAG, "Post with id: ${post.id} clicked")

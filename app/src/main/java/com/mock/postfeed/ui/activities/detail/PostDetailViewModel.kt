@@ -23,7 +23,8 @@ class PostDetailViewModel : ViewModel() {
         viewModelScope.launch {
             val response = api.getPostById(id = id)
             if (response.isSuccessful) {
-                _state.value = _state.value.copy(postData = response.body() as PostModel)
+                _state.value =
+                    _state.value.copy(postData = response.body() as PostModel, postId = id)
             } else {
                 response.errorBody()?.string()?.let { Log.e(TAG, it) }
             }
