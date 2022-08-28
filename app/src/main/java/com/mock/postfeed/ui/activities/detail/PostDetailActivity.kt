@@ -21,11 +21,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.mock.postfeed.data.network.PostModel
 import com.mock.postfeed.ui.widgets.MySpinner
-import java.sql.Date
 import java.text.SimpleDateFormat
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 class PostDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,21 +53,21 @@ class PostDetailActivity : ComponentActivity() {
             },
             modifier = Modifier.fillMaxSize(),
         ) { _ ->
-            GetScaffoldContent(state)
+            ScaffoldContent(state)
         }
     }
 
     @Composable
-    fun GetScaffoldContent(state: State<PostDetailActivityState>) {
+    fun ScaffoldContent(state: State<PostDetailActivityState>) {
         if (state.value.loading) {
             MySpinner()
         } else {
-            state.value.postData?.let { GetPostDetail(post = it) }
+            state.value.postData?.let { PostDetail(post = it) }
         }
     }
 
     @Composable
-    fun GetPostDetail(post: PostModel) {
+    fun PostDetail(post: PostModel) {
         val scrollSate = rememberScrollState()
         Column(modifier = Modifier.verticalScroll(scrollSate)) {
             SubcomposeAsyncImage(

@@ -47,12 +47,12 @@ class MainActivity : ComponentActivity() {
                 TopAppBar(title = { Text(text = "Home") })
             }
         ) { _ ->
-            GetHomeContent(state)
+            HomeContent(state)
         }
     }
 
     @Composable
-    fun GetHomeContent(state: State<MainActivityState>) {
+    fun HomeContent(state: State<MainActivityState>) {
         if (state.value.loading) {
             MySpinner()
         } else {
