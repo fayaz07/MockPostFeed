@@ -1,5 +1,6 @@
 package com.mock.postfeed.ui.activities.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -32,36 +32,27 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
     fun Content() {
         val mainViewModel = MainViewModel()
         val state = mainViewModel.state.collectAsState()
 
-        Surface(
+        Scaffold(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
+            topBar = {
+                TopAppBar(title = { Text(text = "Home") })
+            }
+        ) { _ ->
+            GetHomeContent(state)
+        }
+    }
 
-            if (state.value.posts.isEmpty()) {
-                Box {
-                    Button(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .padding(16.dp)
-                            .height(48.dp)
-                            .width(200.dp),
-                        onClick = {
-                            mainViewModel.getPosts()
-                        }) {
-                        Text(text = "Get data")
-                    }
-                }
-            } else {
-                LazyColumn {
-                    items(state.value.posts.size) { index ->
-                        PostWidget(state.value.posts[index])
-                    }
-                }
+    @Composable
+    fun GetHomeContent(state: State<MainActivityState>) {
+        LazyColumn {
+            items(state.value.posts.size) { index ->
+                PostWidget(state.value.posts[index])
             }
         }
     }
