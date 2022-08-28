@@ -12,13 +12,16 @@ import androidx.compose.ui.Modifier
 class PostDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val postId = intent.getIntExtra("postId", 0)
+
         setContent {
 
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.background
             ) {
-                Text("Android")
+                Text("Data of post id: $postId will be shown here")
             }
         }
     }
