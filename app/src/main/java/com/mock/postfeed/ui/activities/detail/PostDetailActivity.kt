@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 
 class PostDetailActivity : ComponentActivity() {
@@ -16,13 +17,15 @@ class PostDetailActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val postId = intent.getIntExtra("postId", 0)
+        val viewModel = PostDetailViewModel()
 
-        setContent { Content(postId) }
+        setContent { Content(postId, viewModel) }
     }
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
-    fun Content(postId: Int) {
+    fun Content(postId: Int, viewModel: PostDetailViewModel) {
+        val state = viewModel.state.collectAsState()
         Scaffold(
             topBar = {
                 TopAppBar(title = { Text(text = "Post detail") }, navigationIcon = {
