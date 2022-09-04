@@ -10,14 +10,15 @@ import com.mock.postfeed.data.network.RetrofitConfig
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
     private val TAG = "mainViewModel"
 
-    private val _state = MutableStateFlow(MainActivityState())
-    val state: StateFlow<MainActivityState>
+    private val _state: MutableStateFlow<List<PostModel>> = MutableStateFlow(emptyList())
+    val state: StateFlow<List<PostModel>>
         get() = _state
 
     init {
@@ -25,20 +26,16 @@ class MainViewModel : ViewModel() {
     }
 
     fun getPosts() {
-        setLoading(true)
         val api = PostFeedAPIService.build()
         viewModelScope.launch {
             val response = api.getPosts()
             if (response.isSuccessful) {
-                _state.value = _state.value.copy(posts = response.body() as List<PostModel>)
+                _state.update {
+                    response.body() as List<PostModel>
+                }
             } else {
                 response.errorBody()?.string()?.let { Log.e(TAG, it) }
             }
-            setLoading(false)
         }
-    }
-
-    private fun setLoading(status: Boolean) {
-        _state.value = _state.value.copy(loading = status)
     }
 }
